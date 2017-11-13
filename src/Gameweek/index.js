@@ -1,27 +1,31 @@
 import React, { Component } from 'react';
-import * as api from '../Services/api/footbal-data/';
+import footballDataApi from '../Services/api/footbal-data/';
 
 class Gameweek extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      gameweek: null,
+      currentMatchday: null
     };
   }
 
   async componentDidMount() {
-    const d = await api.getOne(445);
-    console.log(d);
+    let data;
+    try {
+      data = await footballDataApi.getOne(445);
+    }
+    catch (err) {
+      // Handle Error
+    }
 
     this.setState({
-      gameweek: d,
+      currentMatchday: data.currentMatchday
     });
   }
 
   render() {
-    const { gameweek } = this.state;
-    return <div>{gameweek}</div>;
+    return (<div>Current Matchday: {this.state.currentMatchday}</div>);
   }
 }
 
