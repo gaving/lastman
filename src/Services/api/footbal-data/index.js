@@ -9,15 +9,40 @@ const init = {
   method: 'GET',
   headers,
   mode: 'cors',
-  cache: 'default',
+  cache: 'default'
 };
 
-const handleErrors = (response) => {
+const handleErrors = async (response) => {
   if (!response.ok) {
-    throw Error(response.statusText);
+    const data = await response.json();
+    throw new Error(data.error);
   }
   return response;
 };
 
-export const getAll = async () => fetch(`${url}/competitions`, init).then(handleErrors);
-export const getOne = async id => fetch(`${url}/competitions/${id}`, init);
+const footballDataApi = {
+  getAll: async () => {
+    try {
+      const response = await fetch(`${url}/competitions`, init)
+        .then(handleErrors);
+      const data = await response.json();
+      return data;
+    }
+    catch (err) {
+      throw new Error(err);
+    }
+  },
+  getOne: async (id) => {
+    try {
+      const response = await fetch(`${url}/competitions/${id}`, init)
+        .then(handleErrors);
+      const data = await response.json();
+      return data;
+    }
+    catch (err) {
+      throw new Error(err);
+    }
+  }
+};
+
+export default footballDataApi;
