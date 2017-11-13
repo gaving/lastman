@@ -1,6 +1,8 @@
 /* global Headers, fetch */
+import config from './config';
+
 const url = 'http://api.football-data.org/v1';
-const key = 'f11b93b1a3d0422280da175d201a681f';
+const key = config.footballDataAPIKey;
 
 const headers = new Headers();
 headers.append('X-Auth-Token', key);
@@ -27,8 +29,7 @@ const footballDataApi = {
         .then(handleErrors);
       const data = await response.json();
       return data;
-    }
-    catch (err) {
+    } catch (err) {
       throw new Error(err);
     }
   },
@@ -38,8 +39,7 @@ const footballDataApi = {
         .then(handleErrors);
       const data = await response.json();
       return data;
-    }
-    catch (err) {
+    } catch (err) {
       throw new Error(err);
     }
   }
